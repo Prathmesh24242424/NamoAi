@@ -1,0 +1,14 @@
+{
+    "name": "namo-ai-digital",
+    "version": "1.0.0",
+    "description": "Namo AI Digital Agency Landing Page",
+    "main": "index.html",
+    "scripts": {
+        "start": "npx serve -s ."
+    },
+    "author": "Namo AI Digital",
+    "license": "ISC",
+    "dependencies": {
+        "serve": "^14.2.0"
+    }
+}
