@@ -633,12 +633,12 @@ nav.scrolled {
 }
 
 .android-head {
-    width: 160px;
-    height: 110px;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 1), rgba(200, 200, 200, 1));
-    border-radius: 50% 50% 60% 60% / 40% 40% 60% 60%;
+    width: 150px;
+    height: 120px;
+    background: radial-gradient(circle at 30% 30%, #ffffff 0%, #bbbbbb 100%);
+    border-radius: 45% 45% 55% 55%;
     position: relative;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 5px 15px rgba(255, 255, 255, 1), inset 0 -10px 20px rgba(100, 100, 100, 0.4);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), inset 0 8px 15px #ffffff, inset 0 -15px 25px rgba(50, 50, 50, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -647,31 +647,31 @@ nav.scrolled {
 }
 
 .glass-visor {
-    width: 130px;
-    height: 35px;
-    background: #020205;
-    border-radius: 20px;
+    width: 110px;
+    height: 40px;
+    background: #000000;
+    border-radius: 25px;
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 0 15px #000, 0 5px 15px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2), 0 5px 15px rgba(0, 0, 0, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 .visor-scanner {
-    width: 30px;
+    width: 40px;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 1), transparent);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+    box-shadow: 0 0 25px #ffffff;
     position: absolute;
-    left: -30px;
-    animation: scanVisor 3s ease-in-out infinite;
+    left: -40px;
+    animation: scanVisorSmooth 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes scanVisor {
+@keyframes scanVisorSmooth {
 
     0%,
-    10% {
-        left: -30px;
+    15% {
+        left: -40px;
         opacity: 0;
     }
 
@@ -679,9 +679,9 @@ nav.scrolled {
         opacity: 1;
     }
 
-    90%,
+    85%,
     100% {
-        left: 130px;
+        left: 110px;
         opacity: 0;
     }
 }
@@ -689,7 +689,7 @@ nav.scrolled {
 .neck-joint {
     width: 50px;
     height: 8px;
-    background: #333;
+    background: #555;
     border-radius: 10px;
     margin: 6px auto;
     position: relative;
@@ -705,13 +705,13 @@ nav.scrolled {
 }
 
 .android-chassis {
-    width: 140px;
-    height: 100px;
-    background: linear-gradient(135deg, rgba(230, 230, 230, 1), rgba(150, 150, 150, 1));
-    border-radius: 40px 40px 60px 60%;
+    width: 130px;
+    height: 90px;
+    background: radial-gradient(circle at 50% 0%, #f0f0f0 0%, #8a8a8a 100%);
+    border-radius: 30px 30px 60px 60%;
     position: relative;
     margin: 0 auto;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), inset 0 5px 15px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), inset 0 5px 20px rgba(255, 255, 255, 0.9);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -720,22 +720,22 @@ nav.scrolled {
 }
 
 .core-glow {
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.5);
+    width: 45px;
+    height: 45px;
+    background: radial-gradient(circle, #ffffff 0%, rgba(200, 200, 200, 0.5) 70%, transparent 100%);
     border-radius: 50%;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.9);
-    animation: breatheCore 4s ease-in-out infinite alternate;
+    box-shadow: 0 0 40px #ffffff, inset 0 0 20px #ffffff;
+    animation: breatheCoreSmooth 3s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
 }
 
-@keyframes breatheCore {
+@keyframes breatheCoreSmooth {
     0% {
-        transform: scale(0.9);
-        opacity: 0.7;
+        transform: scale(0.8);
+        opacity: 0.6;
     }
 
     100% {
-        transform: scale(1.1);
+        transform: scale(1.15);
         opacity: 1;
     }
 }
@@ -785,32 +785,66 @@ nav.scrolled {
     }
 }
 
+/* Disappearing to Text Magic */
 .elegant-hi {
     position: absolute;
-    top: -30px;
-    right: -130px;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
     font-family: var(--font-display);
-    font-size: 2.2rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
-    letter-spacing: 2px;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-    animation: smoothFade 4s ease-in-out infinite alternate;
-    pointer-events: none;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 3px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
     z-index: 20;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.6);
-    padding-bottom: 5px;
+    pointer-events: none;
+    display: inline-block;
 }
 
-@keyframes smoothFade {
-    0% {
-        opacity: 0.4;
-        transform: translateY(5px);
+.typewriter-text {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid #ffffff;
+    /* Step timing creates the stuttering typing effect */
+    animation: typeWriterReveal 6s steps(22, end) infinite, blinkCursor 0.8s step-end infinite;
+}
+
+@keyframes typeWriterReveal {
+
+    0%,
+    10% {
+        width: 0;
+        opacity: 0;
     }
 
-    100% {
+    12% {
         opacity: 1;
-        transform: translateY(-5px);
+    }
+
+    40%,
+    80% {
+        width: 100%;
+        opacity: 1;
+    }
+
+    85%,
+    100% {
+        width: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes blinkCursor {
+
+    0%,
+    100% {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: #ffffff;
     }
 }
 
