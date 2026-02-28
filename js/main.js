@@ -106,23 +106,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. SCROLL PROGRESS
+    // 3 & 4. OPTIMIZED HIGH-PERFORMANCE SCROLL OBSERVER
     const scrollProgress = document.getElementById('scroll-progress');
-    window.addEventListener('scroll', () => {
-        const totalHeight = document.body.scrollHeight - window.innerHeight;
-        const progress = (window.pageYOffset / totalHeight) * 100;
-        scrollProgress.style.width = progress + '%';
-    }, { passive: true });
-
-    // 4. NAVBAR GLASS EFFECT
     const navbar = document.getElementById('navbar');
+    let isScrolling = false;
+
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-            document.body.classList.add('scrolled-toggles');
-        } else {
-            navbar.classList.remove('scrolled');
-            document.body.classList.remove('scrolled-toggles');
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                // Task A: Scroll Progress Bar (width scaling is cheaper than full repaints)
+                const totalHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = (window.scrollY / totalHeight) * 100;
+                scrollProgress.style.transform = `scaleX(${progress / 100})`;
+                scrollProgress.style.transformOrigin = 'left center';
+
+                // Task B: Navbar Glass Transition
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                    document.body.classList.add('scrolled-toggles');
+                } else {
+                    navbar.classList.remove('scrolled');
+                    document.body.classList.remove('scrolled-toggles');
+                }
+
+                isScrolling = false;
+            });
+            isScrolling = true;
         }
     }, { passive: true });
 
@@ -216,99 +225,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const statsSection = document.getElementById('stats-section');
     if (statsSection) counterObserver.observe(statsSection);
 
-    // 8. PARTICLE CANVAS BACKGROUND
-    const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
+    // 8. BACKGROUND VIDEO SMOOTH PARALLAX & SLOW MOTION
+    const bgVideo = document.getElementById('bg-video');
+    if (bgVideo) {
+        // Force slow motion optimally on the video element
+        bgVideo.playbackRate = 0.5;
 
-    let particles = [];
-    let width, height;
-
-    function resizeCanvas() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
     }
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    class Particle {
-        constructor() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.size = Math.random() * 2 + 0.1;
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.speedY = (Math.random() - 0.5) * 0.5;
-            // Randomly choose between white, amber, and coral
-            const colors = ['rgba(255,255,255,0.3)', 'rgba(229,231,235,0.4)', 'rgba(156,163,175,0.3)'];
-            this.color = colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-
-            if (this.x > width) this.x = 0;
-            else if (this.x < 0) this.x = width;
-
-            if (this.y > height) this.y = 0;
-            else if (this.y < 0) this.y = height;
-        }
-
-        draw() {
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-
-    function initParticles() {
-        particles = [];
-        // More particles on larger screens
-        const particleCount = Math.floor(width * height / 8000);
-        for (let i = 0; i < Math.min(particleCount, 200); i++) {
-            particles.push(new Particle());
-        }
-    }
-
-    function animateParticles() {
-        ctx.clearRect(0, 0, width, height);
-        // Connect close particles with lines
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].update();
-            particles[i].draw();
-
-            for (let j = i; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance < 100) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance / 1000})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(animateParticles);
-    }
-
-    initParticles();
-    animateParticles();
-
-    // Re-init particles on resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            initParticles();
-        }, 200);
-    });
     // 9. INTERACTIVE 3D CORE IN ABOUT SECTION
     const aboutWrapper = document.querySelector('.about-img-wrapper');
     const interactiveCore = document.getElementById('interactive-core');
@@ -328,6 +251,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
         aboutWrapper.addEventListener('mouseleave', () => {
             interactiveCore.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        });
+    }
+
+    // 10. WHATSAPP FORM INTEGRATION
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get button to show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'Connecting...';
+            submitBtn.style.opacity = '0.8';
+
+            // Gather data
+            const name = this.querySelector('#form-name').value;
+            const email = this.querySelector('#form-email').value;
+            const mobile = this.querySelector('#form-mobile').value;
+            const location = this.querySelector('#form-location').value;
+            const service = this.querySelector('#form-service').value;
+            const message = this.querySelector('#form-message').value;
+
+            // Format message neatly for WhatsApp (WhatsApp supports *bold* and _italic_)
+            const text = `*New Project Inquiry* 🚀\n\n` +
+                `*Name:* ${name}\n` +
+                `*Email:* ${email}\n` +
+                `*Mobile:* ${mobile}\n` +
+                `*Location:* ${location}\n` +
+                `*Service Required:* ${service}\n\n` +
+                `*Message:*\n${message}`;
+
+            const encodedText = encodeURIComponent(text);
+            const whatsappUrl = `https://wa.me/919579057085?text=${encodedText}`;
+
+            // Reset button and open WhatsApp
+            setTimeout(() => {
+                submitBtn.innerText = originalText;
+                submitBtn.style.opacity = '1';
+                window.open(whatsappUrl, '_blank');
+                contactForm.reset();
+            }, 600); // Tiny delay so user feels the "Connecting..." interaction
         });
     }
 });
