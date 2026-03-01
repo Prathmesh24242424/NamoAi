@@ -157,13 +157,18 @@ const initApp = () => {
     // Magnetic Buttons
     const magnetBtns = document.querySelectorAll('.magnet-btn');
     magnetBtns.forEach(btn => {
+        let rect = null;
+        btn.addEventListener('mouseenter', function () {
+            rect = this.getBoundingClientRect();
+        });
         btn.addEventListener('mousemove', function (e) {
-            const rect = this.getBoundingClientRect();
+            if (!rect) rect = this.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
             this.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
         });
         btn.addEventListener('mouseleave', function () {
+            rect = null;
             this.style.transform = 'translate(0px, 0px)';
         });
     });
@@ -171,31 +176,26 @@ const initApp = () => {
     // 3 & 4. OPTIMIZED HIGH-PERFORMANCE SCROLL OBSERVER
     const scrollProgress = document.getElementById('scroll-progress');
     const navbar = document.getElementById('navbar');
-    let isScrolling = false;
 
-    window.addEventListener('scroll', () => {
-        if (!isScrolling) {
-            window.requestAnimationFrame(() => {
-                // Task A: Scroll Progress Bar (width scaling is cheaper than full repaints)
-                const totalHeight = document.body.scrollHeight - window.innerHeight;
-                const progress = (window.scrollY / totalHeight) * 100;
-                scrollProgress.style.transform = `scaleX(${progress / 100})`;
-                scrollProgress.style.transformOrigin = 'left center';
+    if (scrollProgress) {
+        scrollProgress.style.transformOrigin = 'left center';
+    }
 
-                // Task B: Navbar Glass Transition
-                if (window.scrollY > 50) {
-                    navbar.classList.add('scrolled');
-                    document.body.classList.add('scrolled-toggles');
-                } else {
-                    navbar.classList.remove('scrolled');
-                    document.body.classList.remove('scrolled-toggles');
-                }
-
-                isScrolling = false;
-            });
-            isScrolling = true;
+    lenis.on('scroll', (e) => {
+        // Task A: Scroll Progress Bar
+        if (scrollProgress) {
+            scrollProgress.style.transform = `scaleX(${e.progress})`;
         }
-    }, { passive: true });
+
+        // Task B: Navbar Glass Transition
+        if (e.animatedScroll > 50) {
+            navbar.classList.add('scrolled');
+            document.body.classList.add('scrolled-toggles');
+        } else {
+            navbar.classList.remove('scrolled');
+            document.body.classList.remove('scrolled-toggles');
+        }
+    });
 
     // 5. INTERSECTION OBSERVER FOR REVEALS & TIMELINE
     const observerOptions = {
@@ -246,8 +246,12 @@ const initApp = () => {
     // 6. 3D TILT EFFECT FOR CARDS
     const tiltCards = document.querySelectorAll('.tilt-card');
     tiltCards.forEach(card => {
+        let rect = null;
+        card.addEventListener('mouseenter', () => {
+            rect = card.getBoundingClientRect();
+        });
         card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
+            if (!rect) rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left; // x position within the element
             const y = e.clientY - rect.top;  // y position within the element
 
@@ -261,6 +265,7 @@ const initApp = () => {
         });
 
         card.addEventListener('mouseleave', () => {
+            rect = null;
             card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
         });
     });
@@ -421,19 +426,24 @@ const initApp = () => {
     const interactiveCore = document.getElementById('interactive-core');
 
     if (aboutWrapper && interactiveCore) {
+        let aboutRect = null;
+        aboutWrapper.addEventListener('mouseenter', () => {
+            aboutRect = aboutWrapper.getBoundingClientRect();
+        });
         aboutWrapper.addEventListener('mousemove', (e) => {
-            const rect = aboutWrapper.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
+            if (!aboutRect) aboutRect = aboutWrapper.getBoundingClientRect();
+            const x = e.clientX - aboutRect.left - aboutRect.width / 2;
+            const y = e.clientY - aboutRect.top - aboutRect.height / 2;
 
             // Multiply for intensity of rotation
-            const rotateX = (y / (rect.height / 2)) * -25;
-            const rotateY = (x / (rect.width / 2)) * 25;
+            const rotateX = (y / (aboutRect.height / 2)) * -25;
+            const rotateY = (x / (aboutRect.width / 2)) * 25;
 
             interactiveCore.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         });
 
         aboutWrapper.addEventListener('mouseleave', () => {
+            aboutRect = null;
             interactiveCore.style.transform = 'rotateX(0deg) rotateY(0deg)';
         });
     }
