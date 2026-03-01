@@ -15,6 +15,126 @@
     --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* ====== PREMIUM PRELOADER ====== */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.8s;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.glow-ring {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: var(--primary-accent);
+    border-bottom-color: var(--secondary-accent);
+    animation: spinRing 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    position: relative;
+}
+
+.glow-ring::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-left-color: rgba(255, 255, 255, 0.1);
+    border-right-color: rgba(255, 255, 255, 0.3);
+    animation: spinRingReverse 2s linear infinite;
+}
+
+@keyframes spinRing {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinRingReverse {
+    0% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+#preloader .logo-text {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #ffffff, #888888);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    animation: pulseText 2s ease-in-out infinite;
+}
+
+@keyframes pulseText {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        filter: blur(1px);
+    }
+
+    50% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+.loading-bar {
+    width: 250px;
+    height: 4px;
+    background: #111;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.loading-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+    border-radius: 4px;
+    box-shadow: 0 0 15px var(--primary-accent);
+}
+
+.loading-percentage {
+    color: #666;
+    font-family: var(--font-accent);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
 /* Reset & Base */
 * {
     margin: 0;
@@ -24,6 +144,9 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100vw;
+    max-width: 100%;
 }
 
 body {
@@ -43,10 +166,13 @@ body {
     object-fit: cover;
     z-index: -3;
     pointer-events: none;
-    transform: scale(1.15);
+    transform: scale(1.15) translateZ(0);
+    /* Hardware accelerate to eliminate scroll lag */
     /* Slightly scaled to allow parallax without showing borders */
     transform-origin: center center;
     will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000;
 }
 
 body::before {
@@ -66,15 +192,15 @@ body::before {
 /* Nav Toggle Button */
 .nav-toggle {
     display: none;
-    position: fixed;
+    position: absolute;
     top: 24px;
-    right: 24px;
+    right: 5%;
     width: 45px;
     height: 45px;
     background: rgba(2, 2, 9, 0.4);
     border: 1px solid var(--glass-border);
     border-radius: 50%;
-    z-index: 1002;
+    z-index: 10000;
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(10px);
@@ -255,11 +381,57 @@ ul {
     color: #FFFFFF;
 }
 
+/* ====== CUSTOM ANIMATED BUTTON ====== */
+.btn-animated {
+    padding-left: 1.2rem;
+    padding-right: 1.5rem;
+}
+
+.btn-animated span {
+    display: block;
+    margin-left: 0.5rem;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.btn-animated svg {
+    display: block;
+    transform-origin: center center;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.btn-animated:hover .svg-wrapper {
+    animation: fly-1 0.6s ease-in-out infinite alternate !important;
+}
+
+.btn-animated:hover svg {
+    transform: translateX(2rem) rotate(45deg) scale(1.1);
+}
+
+.btn-animated:hover span {
+    transform: translateX(30rem);
+}
+
+.btn-animated:active {
+    transform: scale(0.95);
+}
+
+@keyframes fly-1 {
+    from {
+        transform: translateY(0.1em);
+    }
+
+    to {
+        transform: translateY(-0.1em);
+    }
+}
+
 /* Scroll Animation Utility */
 .reveal {
     opacity: 0;
     transform: translateY(80px);
     transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 .reveal.active {
@@ -271,6 +443,8 @@ ul {
     opacity: 0;
     transform: translateX(-80px);
     transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 .reveal-left.active {
@@ -282,6 +456,8 @@ ul {
     opacity: 0;
     transform: translateX(80px);
     transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 .reveal-right.active {
@@ -624,11 +800,11 @@ nav.scrolled {
 
 @keyframes levitateSmooth {
     0% {
-        transform: translateY(-15px) rotateX(2deg);
+        transform: translateY(-15px) rotateX(2deg) scale(0.85);
     }
 
     100% {
-        transform: translateY(15px) rotateX(-2deg);
+        transform: translateY(15px) rotateX(-2deg) scale(0.85);
     }
 }
 
@@ -792,11 +968,12 @@ nav.scrolled {
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-display);
-    font-size: 1.8rem;
+    font-size: 1.3rem;
+    /* Scaled down slightly */
     font-weight: 700;
     color: #ffffff;
-    letter-spacing: 3px;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
     z-index: 20;
     pointer-events: none;
     display: inline-block;
@@ -971,34 +1148,329 @@ nav.scrolled {
     gap: 30px;
 }
 
-.service-card {
-    padding: 40px;
+/* ====== 3D CAROUSEL WRAPPER (Replaces Grid) ====== */
+.carousel-wrapper {
+    width: 100%;
+    height: 600px;
     position: relative;
-    overflow: hidden;
-    transition: var(--transition-smooth);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    margin: 50px 0;
+    cursor: grab;
+}
+
+.carousel-wrapper:active {
+    cursor: grabbing;
+}
+
+.carousel-inner {
+    --w: 320px;
+    --h: 420px;
+    --translateZ: 380px;
+    --rotateX: -5deg;
+    --perspective: 1500px;
+    position: absolute;
+    width: var(--w);
+    height: var(--h);
+    z-index: 2;
+    transform-style: preserve-3d;
+    transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg);
+    transition: transform 0.1s;
+    /* smooth drag */
+}
+
+/* Initially STACKED directly on top of each other */
+.carousel-card {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg) translateZ(0px);
+    /* Stacked at center */
+    transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: transform;
+}
+
+/* Stylized beautiful angled stack overlapping using rotateZ to fan out 
+   and strict Z spacing to mathematically block any 3D clipping! */
+.carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(1) {
+    transform: translateZ(50px) rotateZ(-12deg) translateX(-80px) translateY(15px);
+    z-index: 6;
+}
+
+.carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(2) {
+    transform: translateZ(40px) rotateZ(-7deg) translateX(-45px) translateY(8px);
+    z-index: 5;
+}
+
+.carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(3) {
+    transform: translateZ(30px) rotateZ(-2deg) translateX(-15px) translateY(0px);
+    z-index: 4;
+}
+
+.carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(4) {
+    transform: translateZ(20px) rotateZ(3deg) translateX(15px) translateY(0px);
+    z-index: 3;
+}
+
+.carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(5) {
+    transform: translateZ(10px) rotateZ(8deg) translateX(45px) translateY(8px);
+    z-index: 2;
+}
+
+.carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(6) {
+    transform: translateZ(0px) rotateZ(13deg) translateX(75px) translateY(15px);
+    z-index: 1;
+}
+
+/* When wrapper gets .carousel-active, they shoot outwards into a ring! */
+.carousel-wrapper.carousel-active .carousel-card {
+    transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
+}
+
+/* Tap to spread prompt */
+.tap-to-spread {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    color: var(--primary-accent);
+    letter-spacing: 2px;
+    pointer-events: none;
+    animation: pulse 2s infinite;
+    z-index: 20;
+    transition: opacity 0.5s;
+}
+
+.carousel-wrapper.carousel-active .tap-to-spread {
+    opacity: 0;
+}
+
+/* Stack Reverter Button */
+.revert-stack-btn {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 20;
+}
+
+.carousel-wrapper.carousel-active .revert-stack-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Navigation Arrows */
+.carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease;
+    z-index: 25;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.carousel-wrapper.carousel-active .carousel-nav-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.carousel-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-nav-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-nav-btn.prev-btn {
+    left: 20px;
+}
+
+.carousel-nav-btn.next-btn {
+    right: 20px;
+}
+
+/* ====== MOBILE RESPONSIVENESS FOR CAROUSEL ====== */
+@media (max-width: 991px) {
+    .carousel-inner {
+        --translateZ: 300px;
+        /* Reduced spread to avoid clipping */
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-wrapper {
+        height: 500px;
+        /* Keep container tightly packed */
+    }
+
+    .carousel-inner {
+        --w: 280px;
+        --h: 380px;
+        --translateZ: 210px;
+        /* Highly compressed spread */
+        --perspective: 1200px;
+    }
+
+    .carousel-nav-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+
+    .carousel-nav-btn.prev-btn {
+        left: 5px;
+    }
+
+    .carousel-nav-btn.next-btn {
+        right: 5px;
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(1) {
+        transform: translateZ(30px) rotateZ(-12deg) translateX(-40px) translateY(10px);
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(2) {
+        transform: translateZ(24px) rotateZ(-7deg) translateX(-25px) translateY(5px);
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(3) {
+        transform: translateZ(18px) rotateZ(-2deg) translateX(-10px) translateY(0px);
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(4) {
+        transform: translateZ(12px) rotateZ(3deg) translateX(10px) translateY(0px);
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(5) {
+        transform: translateZ(6px) rotateZ(8deg) translateX(25px) translateY(5px);
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(6) {
+        transform: translateZ(0px) rotateZ(13deg) translateX(40px) translateY(10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-inner {
+        --w: 240px;
+        --h: 340px;
+        --translateZ: 170px;
+        /* Micro-screen constraint protection */
+        --perspective: 1000px;
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(1) {
+        transform: translateZ(25px) rotateZ(-12deg) translateX(-25px) translateY(8px);
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(2) {
+        transform: translateZ(20px) rotateZ(-7deg) translateX(-15px) translateY(4px);
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(3) {
+        transform: translateZ(15px) rotateZ(-2deg) translateX(-5px) translateY(0px);
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(4) {
+        transform: translateZ(10px) rotateZ(3deg) translateX(5px) translateY(0px);
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(5) {
+        transform: translateZ(5px) rotateZ(8deg) translateX(15px) translateY(4px);
+    }
+
+    .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(6) {
+        transform: translateZ(0px) rotateZ(13deg) translateX(25px) translateY(8px);
+    }
+}
+
+/* Service Flip Cards (Replacing old static cards) */
+.flip-card {
+    background-color: transparent;
+    width: 100%;
+    height: 420px;
+    /* Fixed height required for absolute positioning of front/back */
+    perspective: 1000px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    /* Extra smooth, premium long-tail ease-out physics */
     transform-style: preserve-3d;
 }
 
-.service-card::before {
-    content: '';
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
     position: absolute;
-    top: 0;
-    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center, rgba(229, 231, 235, 0.1) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    z-index: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* This works perfectly without child translateZ clipping */
+    border-radius: 20px;
+    padding: 30px;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
-.service-card:hover {
-    border-color: rgba(255, 255, 255, 0.3);
+.flip-card-front {
+    background-color: #070707;
+    /* Force solid base to prevent bleeding */
+    background-image: linear-gradient(145deg, rgba(30, 30, 30, 0.98), rgba(10, 10, 10, 1));
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    transform: rotateY(0deg);
+}
+
+.flip-card:hover .flip-card-front {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
-.service-card:hover::before {
-    opacity: 1;
+.flip-card-back {
+    background-color: #050505;
+    /* Force solid base */
+    background-image: linear-gradient(135deg, rgba(20, 20, 20, 1), rgba(5, 5, 5, 1));
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    transform: rotateY(180deg);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
 }
 
 .service-icon {
@@ -1014,18 +1486,11 @@ nav.scrolled {
     font-size: 1.8rem;
     position: relative;
     z-index: 1;
-    transition: var(--transition-smooth);
-}
-
-.service-card:hover .service-icon {
-    transform: scale(1.1);
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .service-title {
     font-size: 1.4rem;
-    margin-bottom: 15px;
+    margin-bottom: 0;
     position: relative;
     z-index: 1;
 }
@@ -1033,25 +1498,15 @@ nav.scrolled {
 .service-desc {
     color: var(--text-muted);
     margin-bottom: 25px;
+    font-size: 0.95rem;
     position: relative;
     z-index: 1;
 }
 
-.service-link {
-    color: var(--primary-accent);
-    font-family: var(--font-accent);
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-    z-index: 1;
-    transition: gap 0.3s;
-}
-
-.service-card:hover .service-link {
-    gap: 15px;
+/* Service small button style inside back card */
+.btn-sm {
+    padding: 10px 24px;
+    font-size: 0.85rem;
 }
 
 /* ====== WHY CHOOSE US ====== */
@@ -1225,6 +1680,32 @@ nav.scrolled {
     height: 100%;
 }
 
+.founder-card {
+    height: 480px;
+    /* Taller height specifically for founder quotes */
+}
+
+.social-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.social-icon-btn:hover {
+    background: var(--text-primary);
+    color: var(--bg-color);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+    border-color: var(--text-primary);
+}
+
 .stars {
     color: var(--primary-accent);
     font-size: 1.2rem;
@@ -1269,8 +1750,11 @@ nav.scrolled {
 }
 
 .client-avatar img {
-    width: 100%;
-    height: 100%;
+    width: 70px;
+    height: 70px;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
     object-fit: cover;
     object-position: center top;
 }
@@ -1478,7 +1962,6 @@ footer {
 @media (max-width: 1024px) {
     .nav-toggle {
         display: flex !important;
-        right: 5%;
         transition: top 0.3s;
     }
 
@@ -1496,7 +1979,7 @@ footer {
         padding: 16px 0;
     }
 
-    body.scrolled-toggles .nav-toggle {
+    nav.scrolled .nav-toggle {
         top: 16px;
     }
 

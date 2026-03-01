@@ -1,4 +1,66 @@
-document.addEventListener('DOMContentLoaded', () => {
+const initApp = () => {
+
+    // 0. PREMIUM INITIAL PRELOADER LOGIC
+    const preloader = document.getElementById('preloader');
+    const loadingProgress = document.querySelector('.loading-progress');
+    const loadingPercentage = document.querySelector('.loading-percentage');
+
+    if (preloader) {
+        let progress = 0;
+        let isLoaded = false;
+
+        // Listen for actual full page load (including videos, fonts, CSS)
+        window.addEventListener('load', () => { isLoaded = true; });
+        if (document.readyState === 'complete') { isLoaded = true; }
+
+        const interval = 25;
+
+        const loaderTimer = setInterval(() => {
+            if (!isLoaded) {
+                // Fake progression up to 90% while waiting for network
+                if (progress < 90) {
+                    progress += Math.random() * 1.5;
+                }
+            } else {
+                // When network finishes loading, sprint to 100%
+                progress += 4;
+            }
+
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loaderTimer);
+                // Pause for a fraction of a second at 100% before dissolving
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    preloader.style.visibility = 'hidden';
+                    preloader.style.pointerEvents = 'none'; // STUCK BUG FAILSAFE
+                }, 300);
+            }
+
+            if (loadingProgress) loadingProgress.style.width = `${progress}%`;
+            if (loadingPercentage) loadingPercentage.innerText = `${Math.floor(progress)}%`;
+        }, interval);
+    }
+
+    // === LENIS HIGH PERFORMANCE SMOOTH SCROLLING ===
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false,
+    });
+
+    // Integrated RequestAnimationFrame loop for Lenis that runs 60+ fps continuously
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
 
     // NAVBAR TOGGLE
     const navToggle = document.getElementById('nav-toggle');
@@ -157,6 +219,30 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
+    // 5.5 FLIP CARD LOGIC (Click-based flip)
+    const flipTriggers = document.querySelectorAll('.flip-trigger');
+    const flipCloses = document.querySelectorAll('.flip-close');
+
+    flipTriggers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const card = btn.closest('.flip-card');
+            if (card) {
+                card.classList.add('flipped');
+            }
+        });
+    });
+
+    flipCloses.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const card = btn.closest('.flip-card');
+            if (card) {
+                card.classList.remove('flipped');
+            }
+        });
+    });
+
     // 6. 3D TILT EFFECT FOR CARDS
     const tiltCards = document.querySelectorAll('.tilt-card');
     tiltCards.forEach(card => {
@@ -178,6 +264,104 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
         });
     });
+
+    // 6.5 INTERACTIVE 3D CAROUSEL (Click to spread & Drag to rotate)
+    const carouselWrapper = document.querySelector('.carousel-wrapper');
+    const carouselInner = document.querySelector('.carousel-inner');
+
+    if (carouselWrapper && carouselInner) {
+        let isDragging = false;
+        let startX = 0;
+        let currentRotateY = 0;
+        let baseRotateY = 0;
+
+        // Spread the cards on click if not active
+        carouselWrapper.addEventListener('click', (e) => {
+            // Ignore if clicking the revert button directly
+            if (e.target.closest('.revert-stack-btn')) return;
+
+            // Only toggle on the empty space or prompt, handle dragging cleanly
+            if (!carouselWrapper.classList.contains('carousel-active')) {
+                carouselWrapper.classList.add('carousel-active');
+                // Reset rotation when opening
+                baseRotateY = 0;
+                currentRotateY = 0;
+                carouselInner.style.transform = `perspective(1500px) rotateX(-5deg) rotateY(0deg)`;
+            }
+        });
+
+        // Revert to Stack logic
+        const revertBtn = document.querySelector('.revert-stack-btn');
+        if (revertBtn) {
+            revertBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // prevent wrapper click from instantly re-opening
+                carouselWrapper.classList.remove('carousel-active');
+
+                // CRUCIAL BUG FIX: Snap the container rotation back to 0 so the stack isn't viewed from behind!
+                baseRotateY = 0;
+                currentRotateY = 0;
+                carouselInner.style.transition = 'transform 0.8s cubic-bezier(0.19, 1, 0.22, 1)';
+                carouselInner.style.transform = `perspective(1500px) rotateX(-5deg) rotateY(0deg)`;
+
+                // Optional but highly aesthetic: auto-unflip any flipped cards when stacking
+                const flippedCards = carouselWrapper.querySelectorAll('.flip-card.flipped');
+                flippedCards.forEach(card => card.classList.remove('flipped'));
+            });
+        }
+
+        // Mouse Drag Logic
+        carouselWrapper.addEventListener('pointerdown', (e) => {
+            if (!carouselWrapper.classList.contains('carousel-active')) return;
+            isDragging = true;
+            startX = e.clientX;
+            carouselWrapper.style.cursor = 'grabbing';
+            // Disable the CSS transition for immediate drag response
+            carouselInner.style.transition = 'none';
+        });
+
+        window.addEventListener('pointermove', (e) => {
+            if (!isDragging || !carouselWrapper.classList.contains('carousel-active')) return;
+
+            const xMoved = e.clientX - startX;
+            // Adjust sensitivity here (e.g. 0.5)
+            currentRotateY = baseRotateY + (xMoved * 0.5);
+
+            carouselInner.style.transform = `perspective(1500px) rotateX(-5deg) rotateY(${currentRotateY}deg)`;
+        });
+
+        window.addEventListener('pointerup', () => {
+            if (isDragging) {
+                isDragging = false;
+                carouselWrapper.style.cursor = 'grab';
+                baseRotateY = currentRotateY; // Save position for next drag
+                // Re-enable smooth transition for releasing
+                carouselInner.style.transition = 'transform 0.1s';
+            }
+        });
+
+        // specific button click logic for arrows
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+
+        const rotateCarouselBy = (degrees) => {
+            // Apply a nice smooth CSS transition specifically for button clicks
+            carouselInner.style.transition = 'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1)';
+            currentRotateY += degrees;
+            baseRotateY = currentRotateY;
+            carouselInner.style.transform = `perspective(1500px) rotateX(-5deg) rotateY(${currentRotateY}deg)`;
+        };
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // prevent closing the ring
+                rotateCarouselBy(-60); // 360 / 6 cards = 60 degrees
+            });
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // prevent closing the ring
+                rotateCarouselBy(60);
+            });
+        }
+    }
 
     // 7. COUNTER UP ANIMATION
     const counterObserver = new IntersectionObserver((entries) => {
@@ -295,4 +479,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 600); // Tiny delay so user feels the "Connecting..." interaction
         });
     }
-});
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
