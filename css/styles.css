@@ -1254,7 +1254,7 @@ nav.scrolled {
 /* Stack Reverter Button */
 .revert-stack-btn {
     position: absolute;
-    bottom: -60px;
+    bottom: -100px;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
@@ -1325,13 +1325,13 @@ nav.scrolled {
 
 @media (max-width: 768px) {
     .carousel-wrapper {
-        height: 500px;
-        /* Keep container tightly packed */
+        height: 550px;
+        /* Give more vertical breathing room */
     }
 
     .carousel-inner {
-        --w: 280px;
-        --h: 380px;
+        --w: 300px;
+        --h: 400px;
         --translateZ: 210px;
         /* Highly compressed spread */
         --perspective: 1200px;
@@ -1377,12 +1377,21 @@ nav.scrolled {
 }
 
 @media (max-width: 480px) {
+    .carousel-wrapper {
+        height: 500px;
+    }
+
     .carousel-inner {
-        --w: 240px;
-        --h: 340px;
+        --w: 260px;
+        --h: 380px;
         --translateZ: 170px;
         /* Micro-screen constraint protection */
         --perspective: 1000px;
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+        padding: 20px !important;
     }
 
     .carousel-wrapper:not(.carousel-active) .carousel-card:nth-child(1) {
@@ -1444,7 +1453,7 @@ nav.scrolled {
     height: 100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    /* This works perfectly without child translateZ clipping */
+    transform-style: preserve-3d;
     border-radius: 20px;
     padding: 30px;
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
@@ -1457,7 +1466,7 @@ nav.scrolled {
     border: 1px solid var(--glass-border);
     color: var(--text-primary);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-    transform: rotateY(0deg);
+    transform: translateZ(1px) rotateY(0deg);
 }
 
 .flip-card:hover .flip-card-front {
@@ -1491,10 +1500,13 @@ nav.scrolled {
 }
 
 .service-title {
-    font-size: 1.4rem;
+    font-size: clamp(1.2rem, 4vw, 1.4rem);
     margin-bottom: 0;
     position: relative;
     z-index: 1;
+    word-break: break-word;
+    max-width: 100%;
+    text-align: center;
 }
 
 .service-desc {
