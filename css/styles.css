@@ -1169,8 +1169,8 @@ nav.scrolled {
 }
 
 .carousel-inner {
-    --w: 320px;
-    --h: 420px;
+    --w: 280px;
+    --h: 360px;
     --translateZ: 380px;
     --rotateX: -5deg;
     --perspective: 1500px;
@@ -1330,8 +1330,8 @@ nav.scrolled {
     }
 
     .carousel-inner {
-        --w: 300px;
-        --h: 400px;
+        --w: 260px;
+        --h: 340px;
         --translateZ: 210px;
         /* Highly compressed spread */
         --perspective: 1200px;
@@ -1382,8 +1382,8 @@ nav.scrolled {
     }
 
     .carousel-inner {
-        --w: 260px;
-        --h: 380px;
+        --w: 220px;
+        --h: 300px;
         --translateZ: 170px;
         /* Micro-screen constraint protection */
         --perspective: 1000px;
@@ -1423,7 +1423,7 @@ nav.scrolled {
 .flip-card {
     background-color: transparent;
     width: 100%;
-    height: 420px;
+    height: 360px;
     /* Fixed height required for absolute positioning of front/back */
     perspective: 1000px;
 }
@@ -1455,7 +1455,7 @@ nav.scrolled {
     backface-visibility: hidden;
     transform-style: preserve-3d;
     border-radius: 20px;
-    padding: 30px;
+    padding: 20px;
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
@@ -1485,16 +1485,16 @@ nav.scrolled {
 }
 
 .service-icon {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 25px;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     position: relative;
     z-index: 1;
 }
@@ -1511,8 +1511,8 @@ nav.scrolled {
 
 .service-desc {
     color: var(--text-muted);
-    margin-bottom: 25px;
-    font-size: 0.95rem;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
     position: relative;
     z-index: 1;
 }
