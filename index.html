@@ -35,10 +35,22 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="css/styles.css?v=7">
+    <link rel="stylesheet" href="css/styles.css?v=23">
 </head>
 
 <body>
+    <!-- PREMIUM PRELOADER -->
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="glow-ring"></div>
+            <div class="logo-text">Namo AI</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <div class="loading-percentage">0%</div>
+        </div>
+    </div>
+
     <!-- Global Background Video -->
     <video autoplay muted loop playsinline id="bg-video">
         <source src="images/Black_and_White_Blackhole_Background_Video.mp4" type="video/mp4">
@@ -170,50 +182,194 @@
                     solutions designed to elevate your brand and drive measurable growth.</p>
             </div>
 
-            <div class="services-grid">
-                <!-- Service 1 -->
-                <div class="service-card glass-panel hover-target tilt-card reveal" style="transition-delay: 0.1s;">
-                    <div class="service-icon">🌐</div>
-                    <h3 class="service-title">Website Development</h3>
-                    <p class="service-desc">Lightning-fast, SEO-optimized, pixel-perfect websites built on modern tech
-                        stacks to deliver exceptional user experiences.</p>
-                    <a href="#contact" class="service-link"
-                        onclick="document.querySelector('#contact-form select').value = this.parentElement.querySelector('h3').innerText;">Learn
-                        More &rarr;</a>
-                </div>
+            <div class="carousel-wrapper reveal">
+                <span class="tap-to-spread">Tap & Drag to Explore</span>
+                <div class="carousel-inner" style="--quantity: 6;">
 
-                <!-- Service 2 -->
-                <div class="service-card glass-panel hover-target tilt-card reveal" style="transition-delay: 0.2s;">
-                    <div class="service-icon">📱</div>
-                    <h3 class="service-title">App Development</h3>
-                    <p class="service-desc">Native iOS & Android apps built for scale and speed. We turn complex ideas
-                        into intuitive, high-performance mobile experiences.</p>
-                    <a href="#contact" class="service-link"
-                        onclick="document.querySelector('#contact-form select').value = this.parentElement.querySelector('h3').innerText;">Learn
-                        More &rarr;</a>
-                </div>
+                    <!-- Service 1 -->
+                    <div class="carousel-card" style="--index: 0;">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="service-icon">🌐</div>
+                                    <h3 class="service-title">Website Development</h3>
+                                    <button type="button" class="btn btn-outline btn-sm flip-trigger hover-target"
+                                        style="margin-top: 25px; transform: translateZ(25px);">Press Me</button>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h3 class="service-title" style="margin-bottom: 20px;">Website Development</h3>
+                                    <p class="service-desc">We build lightning-fast, highly-scalable, and deeply
+                                        SEO-optimized
+                                        web structures. From high-conversion landing pages to complex corporate
+                                        platforms, our
+                                        custom code architectures ensure flawless pixel-perfect execution across every
+                                        viewport
+                                        and device.</p>
+                                    <div style="display: flex; gap: 10px; transform: translateZ(25px);">
+                                        <a href="#contact" class="btn btn-primary btn-sm" style="transform: none;"
+                                            onclick="document.querySelector('#contact-form select').value = 'Website Development';">Get
+                                            Started</a>
+                                        <button type="button" class="btn btn-outline btn-sm flip-close hover-target"
+                                            style="transform: none; padding: 10px 15px;">✕</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- Service 3 -->
-                <div class="service-card glass-panel hover-target tilt-card reveal" style="transition-delay: 0.3s;">
-                    <div class="service-icon">📈</div>
-                    <h3 class="service-title">Digital Marketing</h3>
-                    <p class="service-desc">Data-driven performance marketing campaigns that maximize ROI, capture
-                        high-quality leads, and convert visitors to customers.</p>
-                    <a href="#contact" class="service-link"
-                        onclick="document.querySelector('#contact-form select').value = this.parentElement.querySelector('h3').innerText;">Learn
-                        More &rarr;</a>
-                </div>
+                    <!-- Service 2 -->
+                    <div class="carousel-card" style="--index: 1;">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="service-icon">📱</div>
+                                    <h3 class="service-title">App Development</h3>
+                                    <button type="button" class="btn btn-outline btn-sm flip-trigger hover-target"
+                                        style="margin-top: 25px; transform: translateZ(25px);">Press Me</button>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h3 class="service-title" style="margin-bottom: 20px;">App Development</h3>
+                                    <p class="service-desc">Transform ambitious concepts into powerful native iOS and
+                                        Android
+                                        environments. We specialize in robust, intuitive mobile interactions paired with
+                                        secure
+                                        cloud-backend syncing to deliver uninterrupted, high-performance user journeys
+                                        on
+                                        massive scales.</p>
+                                    <div style="display: flex; gap: 10px; transform: translateZ(25px);">
+                                        <a href="#contact" class="btn btn-primary btn-sm" style="transform: none;"
+                                            onclick="document.querySelector('#contact-form select').value = 'App Development';">Get
+                                            Started</a>
+                                        <button type="button" class="btn btn-outline btn-sm flip-close hover-target"
+                                            style="transform: none; padding: 10px 15px;">✕</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- Service 4 -->
-                <div class="service-card glass-panel hover-target tilt-card reveal" style="transition-delay: 0.4s;">
-                    <div class="service-icon">📣</div>
-                    <h3 class="service-title">Social Media Management</h3>
-                    <p class="service-desc">Engaging social content strategies that build communities, amplify brand
-                        voice, and grow your audience authentically.</p>
-                    <a href="#contact" class="service-link"
-                        onclick="document.querySelector('#contact-form select').value = this.parentElement.querySelector('h3').innerText;">Learn
-                        More &rarr;</a>
+                    <!-- Service 3 -->
+                    <div class="carousel-card" style="--index: 2;">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="service-icon">📈</div>
+                                    <h3 class="service-title">Digital Marketing</h3>
+                                    <button type="button" class="btn btn-outline btn-sm flip-trigger hover-target"
+                                        style="margin-top: 25px; transform: translateZ(25px);">Press Me</button>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h3 class="service-title" style="margin-bottom: 20px;">Digital Marketing</h3>
+                                    <p class="service-desc">Dominate search rankings and command attention. We deploy
+                                        aggressive, data-validated marketing frameworks combining advanced SEO
+                                        algorithms,
+                                        competitive keyword domination, and dynamic lead-capture mechanisms to massively
+                                        multiply your brand ROI.</p>
+                                    <div style="display: flex; gap: 10px; transform: translateZ(25px);">
+                                        <a href="#contact" class="btn btn-primary btn-sm" style="transform: none;"
+                                            onclick="document.querySelector('#contact-form select').value = 'Digital Marketing';">Get
+                                            Started</a>
+                                        <button type="button" class="btn btn-outline btn-sm flip-close hover-target"
+                                            style="transform: none; padding: 10px 15px;">✕</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="carousel-card" style="--index: 3;">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="service-icon">📣</div>
+                                    <h3 class="service-title">Social Media</h3>
+                                    <button type="button" class="btn btn-outline btn-sm flip-trigger hover-target"
+                                        style="margin-top: 25px; transform: translateZ(25px);">Press Me</button>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h3 class="service-title" style="margin-bottom: 20px;">Social Media</h3>
+                                    <p class="service-desc">Influence the culture. Our elite social strategists craft
+                                        high-engagement content architectures that authentically echo your brand voice.
+                                        We build
+                                        fierce community loyalty, drive viral amplification, and establish untouchable
+                                        industry
+                                        authority.</p>
+                                    <div style="display: flex; gap: 10px; transform: translateZ(25px);">
+                                        <a href="#contact" class="btn btn-primary btn-sm" style="transform: none;"
+                                            onclick="document.querySelector('#contact-form select').value = 'Social Media Management';">Get
+                                            Started</a>
+                                        <button type="button" class="btn btn-outline btn-sm flip-close hover-target"
+                                            style="transform: none; padding: 10px 15px;">✕</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 5 -->
+                    <div class="carousel-card" style="--index: 4;">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="service-icon">🎯</div>
+                                    <h3 class="service-title">Performance Ads</h3>
+                                    <button type="button" class="btn btn-outline btn-sm flip-trigger hover-target"
+                                        style="margin-top: 25px; transform: translateZ(25px);">Press Me</button>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h3 class="service-title" style="margin-bottom: 20px;">Performance Ads</h3>
+                                    <p class="service-desc">Target precision hyper-growth. Through relentless A/B
+                                        testing,
+                                        exact-match paid ad ecosystems across Meta and Google, and heavy data-analytics,
+                                        we
+                                        guarantee every dollar spent strictly returns measurable, scalable, and direct
+                                        customer
+                                        acquisition.</p>
+                                    <div style="display: flex; gap: 10px; transform: translateZ(25px);">
+                                        <a href="#contact" class="btn btn-primary btn-sm" style="transform: none;"
+                                            onclick="document.querySelector('#contact-form select').value = 'Performance Marketing';">Get
+                                            Started</a>
+                                        <button type="button" class="btn btn-outline btn-sm flip-close hover-target"
+                                            style="transform: none; padding: 10px 15px;">✕</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 6 -->
+                    <div class="carousel-card" style="--index: 5;">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="service-icon">✨</div>
+                                    <h3 class="service-title">UI/UX Design</h3>
+                                    <button type="button" class="btn btn-outline btn-sm flip-trigger hover-target"
+                                        style="margin-top: 25px; transform: translateZ(25px);">Press Me</button>
+                                </div>
+                                <div class="flip-card-back">
+                                    <h3 class="service-title" style="margin-bottom: 20px;">UI/UX Design</h3>
+                                    <p class="service-desc">Architect aesthetic interfaces that addict the user. We map
+                                        complex
+                                        user-flow psychology into beautiful, frictionless wireframes—turning casual
+                                        scrolling
+                                        into deep, emotionally-driven interactions and unbreakable brand devotion.</p>
+                                    <div style="display: flex; gap: 10px; transform: translateZ(25px);">
+                                        <a href="#contact" class="btn btn-primary btn-sm" style="transform: none;"
+                                            onclick="document.querySelector('#contact-form select').value = 'UI/UX Design';">Get
+                                            Started</a>
+                                        <button type="button" class="btn btn-outline btn-sm flip-close hover-target"
+                                            style="transform: none; padding: 10px 15px;">✕</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <button type="button" class="carousel-nav-btn prev-btn">❮</button>
+                <button type="button" class="carousel-nav-btn next-btn">❯</button>
+                <button type="button" class="btn btn-outline revert-stack-btn">Stack Cards</button>
             </div>
         </div>
     </section>
@@ -332,47 +488,200 @@
             </div>
 
             <div class="testimonials-grid">
-                <div class="testimonial-card glass-panel reveal" style="transition-delay: 0.1s;">
-                    <div class="stars">★★★★★</div>
-                    <p class="quote">"We founded Namo AI Digital to push the boundaries of digital experiences. Our goal
-                        is to craft stunning, performance-driven web products that dominate the modern market."</p>
-                    <div class="client-info">
-                        <div class="client-avatar"><img src="images/sarthak.png" alt="Sarthak Fatale"
-                                style="width: 70px; height: 70px; min-width: 70px; min-height: 70px; object-fit: cover;">
+                <!-- Sarthak -->
+                <div class="flip-card founder-card reveal" style="transition-delay: 0.1s;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front"
+                            style="padding: 40px; text-align: left; align-items: flex-start; justify-content: space-between;">
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"We founded Namo AI Digital to push the boundaries of digital experiences.
+                                Our goal is to craft stunning, performance-driven web products that dominate the modern
+                                market."</p>
+                            <div class="client-info" style="margin-top:20px;">
+                                <div class="client-avatar"><img src="images/sarthak.png" alt="Sarthak Fatale"
+                                        style="width: 70px; height: 70px; min-width: 70px; min-height: 70px; object-fit: cover; border-radius: 50%;">
+                                </div>
+                                <div>
+                                    <div class="client-name">Sarthak Fatale</div>
+                                    <div class="client-position">Founder</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline btn-sm flip-trigger hover-target"
+                                style="position: absolute; bottom: 30px; right: 30px; transform: translateZ(25px); padding: 8px 15px; font-size: 0.8rem;">Contact
+                                ➔</button>
                         </div>
-                        <div>
-                            <div class="client-name">Sarthak Fatale</div>
-                            <div class="client-position">Founder</div>
+                        <div class="flip-card-back">
+                            <div class="client-avatar" style="margin-bottom: 20px; width:90px; height:90px;"><img
+                                    src="images/sarthak.png"
+                                    style="width: 90px; height: 90px; object-fit: cover; border-radius: 50%;"></div>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 5px; transform: translateZ(25px);">Sarthak
+                                Fatale</h3>
+                            <p style="color: var(--text-muted); margin-bottom: 30px; transform: translateZ(25px);">
+                                Founder</p>
+                            <div
+                                style="display: flex; gap: 15px; justify-content: center; transform: translateZ(30px);">
+                                <a href="#" class="social-icon-btn hover-target" aria-label="Instagram">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                    </svg>
+                                </a>
+                                <a href="#" class="social-icon-btn hover-target" aria-label="LinkedIn">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                        </path>
+                                        <rect x="2" y="9" width="4" height="12"></rect>
+                                        <circle cx="4" cy="4" r="2"></circle>
+                                    </svg>
+                                </a>
+                                <a href="#" class="social-icon-btn hover-target" aria-label="Threads">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M17.436 12.75a5.55 5.55 0 0 1-5.436 5.25c-3.038 0-5.5-2.462-5.5-5.5s2.462-5.5 5.5-5.5c2.618 0 4.88 1.83 5.39 4.25">
+                                        </path>
+                                        <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                        <path d="M16.5 12v1.5c0 1.38-.895 2.5-2 2.5h-2.5"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                            <button type="button" class="btn btn-outline btn-sm flip-close hover-target"
+                                style="margin-top: 30px; transform: translateZ(25px); padding: 8px 15px;">✕
+                                Close</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="testimonial-card glass-panel reveal" style="transition-delay: 0.2s;">
-                    <div class="stars">★★★★★</div>
-                    <p class="quote">"Design and development go hand-in-hand. We ensure every pixel is perfect and every
-                        interaction feels like magic, delivering premium solutions for ambitious brands."</p>
-                    <div class="client-info">
-                        <div class="client-avatar"><img src="images/prathmesh.jpg" alt="Prathmesh Sawarkar"
-                                style="width: 70px; height: 70px; min-width: 70px; min-height: 70px; object-fit: cover;">
+                <!-- Prathmesh -->
+                <div class="flip-card founder-card reveal" style="transition-delay: 0.2s;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front"
+                            style="padding: 40px; text-align: left; align-items: flex-start; justify-content: space-between;">
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"Design and development go hand-in-hand. We ensure every pixel is perfect
+                                and every interaction feels like magic, delivering premium solutions for ambitious
+                                brands."</p>
+                            <div class="client-info" style="margin-top:20px;">
+                                <div class="client-avatar"><img src="images/prathmesh.jpg" alt="Prathmesh Sawarkar"
+                                        style="width: 70px; height: 70px; min-width: 70px; min-height: 70px; object-fit: cover; border-radius: 50%;">
+                                </div>
+                                <div>
+                                    <div class="client-name">Prathmesh Sawarkar</div>
+                                    <div class="client-position">Co-Founder</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline btn-sm flip-trigger hover-target"
+                                style="position: absolute; bottom: 30px; right: 30px; transform: translateZ(25px); padding: 8px 15px; font-size: 0.8rem;">Contact
+                                ➔</button>
                         </div>
-                        <div>
-                            <div class="client-name">Prathmesh Sawarkar</div>
-                            <div class="client-position">Co-Founder</div>
+                        <div class="flip-card-back">
+                            <div class="client-avatar" style="margin-bottom: 20px; width:90px; height:90px;"><img
+                                    src="images/prathmesh.jpg"
+                                    style="width: 90px; height: 90px; object-fit: cover; border-radius: 50%;"></div>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 5px; transform: translateZ(25px);">Prathmesh
+                                Sawarkar</h3>
+                            <p style="color: var(--text-muted); margin-bottom: 30px; transform: translateZ(25px);">
+                                Co-Founder</p>
+                            <div
+                                style="display: flex; gap: 15px; justify-content: center; transform: translateZ(30px);">
+                                <a href="#" class="social-icon-btn hover-target" aria-label="Instagram"><svg width="22"
+                                        height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                    </svg></a>
+                                <a href="#" class="social-icon-btn hover-target" aria-label="LinkedIn"><svg width="22"
+                                        height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                        </path>
+                                        <rect x="2" y="9" width="4" height="12"></rect>
+                                        <circle cx="4" cy="4" r="2"></circle>
+                                    </svg></a>
+                                <a href="#" class="social-icon-btn hover-target" aria-label="Threads"><svg width="22"
+                                        height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M17.436 12.75a5.55 5.55 0 0 1-5.436 5.25c-3.038 0-5.5-2.462-5.5-5.5s2.462-5.5 5.5-5.5c2.618 0 4.88 1.83 5.39 4.25">
+                                        </path>
+                                        <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                        <path d="M16.5 12v1.5c0 1.38-.895 2.5-2 2.5h-2.5"></path>
+                                    </svg></a>
+                            </div>
+                            <button type="button" class="btn btn-outline btn-sm flip-close hover-target"
+                                style="margin-top: 30px; transform: translateZ(25px); padding: 8px 15px;">✕
+                                Close</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="testimonial-card glass-panel reveal" style="transition-delay: 0.3s;">
-                    <div class="stars">★★★★★</div>
-                    <p class="quote">"Our architecture is built to scale. We leverage cutting-edge tech to guarantee
-                        lightning-fast load times, flawless responsiveness, and ultimate security."</p>
-                    <div class="client-info">
-                        <div class="client-avatar"><img src="images/Mangesh.png" alt="Mangesh Dhamke"
-                                style="width: 70px; height: 70px; min-width: 70px; min-height: 70px; object-fit: cover;">
+                <!-- Mangesh -->
+                <div class="flip-card founder-card reveal" style="transition-delay: 0.3s;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front"
+                            style="padding: 40px; text-align: left; align-items: flex-start; justify-content: space-between;">
+                            <div class="stars">★★★★★</div>
+                            <p class="quote">"Our architecture is built to scale. We leverage cutting-edge tech to
+                                guarantee lightning-fast load times, flawless responsiveness, and ultimate security."
+                            </p>
+                            <div class="client-info" style="margin-top:20px;">
+                                <div class="client-avatar"><img src="images/Mangesh.png" alt="Mangesh Dhamke"
+                                        style="width: 70px; height: 70px; min-width: 70px; min-height: 70px; object-fit: cover; border-radius: 50%;">
+                                </div>
+                                <div>
+                                    <div class="client-name">Mangesh Dhamke</div>
+                                    <div class="client-position">Co-Founder</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline btn-sm flip-trigger hover-target"
+                                style="position: absolute; bottom: 30px; right: 30px; transform: translateZ(25px); padding: 8px 15px; font-size: 0.8rem;">Contact
+                                ➔</button>
                         </div>
-                        <div>
-                            <div class="client-name">Mangesh Dhamke</div>
-                            <div class="client-position">Co-Founder</div>
+                        <div class="flip-card-back">
+                            <div class="client-avatar" style="margin-bottom: 20px; width:90px; height:90px;"><img
+                                    src="images/Mangesh.png"
+                                    style="width: 90px; height: 90px; object-fit: cover; border-radius: 50%;"></div>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 5px; transform: translateZ(25px);">Mangesh
+                                Dhamke</h3>
+                            <p style="color: var(--text-muted); margin-bottom: 30px; transform: translateZ(25px);">
+                                Co-Founder</p>
+                            <div
+                                style="display: flex; gap: 15px; justify-content: center; transform: translateZ(30px);">
+                                <a href="#" class="social-icon-btn hover-target" aria-label="Instagram"><svg width="22"
+                                        height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                    </svg></a>
+                                <a href="#" class="social-icon-btn hover-target" aria-label="LinkedIn"><svg width="22"
+                                        height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                        </path>
+                                        <rect x="2" y="9" width="4" height="12"></rect>
+                                        <circle cx="4" cy="4" r="2"></circle>
+                                    </svg></a>
+                                <a href="#" class="social-icon-btn hover-target" aria-label="Threads"><svg width="22"
+                                        height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M17.436 12.75a5.55 5.55 0 0 1-5.436 5.25c-3.038 0-5.5-2.462-5.5-5.5s2.462-5.5 5.5-5.5c2.618 0 4.88 1.83 5.39 4.25">
+                                        </path>
+                                        <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                        <path d="M16.5 12v1.5c0 1.38-.895 2.5-2 2.5h-2.5"></path>
+                                    </svg></a>
+                            </div>
+                            <button type="button" class="btn btn-outline btn-sm flip-close hover-target"
+                                style="margin-top: 30px; transform: translateZ(25px); padding: 8px 15px;">✕
+                                Close</button>
                         </div>
                     </div>
                 </div>
